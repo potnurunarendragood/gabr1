@@ -2,6 +2,17 @@ name: NodeJs
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Which environment to deploy to?'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - staging
+          - production
+          - development
+          - testing
 
 
 jobs:
