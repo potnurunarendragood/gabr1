@@ -1,3 +1,7 @@
+name: ci
+
+on: push
+
 jobs:
   deploy-staging:
     if: github.ref == 'refs/heads/develop' # Only run for the develop branch
