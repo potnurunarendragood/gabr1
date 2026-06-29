@@ -6,7 +6,10 @@ on:
   push:
     branches:
       - master
-
+permissions:
+  contents: read
+  actions: read
+  security-events: write
 jobs:
   Build-Test:
     runs-on: ubuntu-latest
