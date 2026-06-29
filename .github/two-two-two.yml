@@ -1,0 +1,64 @@
+name: Security Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+  issues: write
+
+jobs:
+  codeql:
+    name: CodeQL Analysis
+    runs-on: [self-hosted, g1]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Cache Dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: build
+        run: npm install
+
+      - name: test
+        run: npm test
+
+      - name: Artifact upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifact-1
+          path: |
+             package*
+
+
+      - name: deploy
+        run: echo "my code is deployed"
