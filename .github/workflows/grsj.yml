@@ -1,4 +1,4 @@
-name: first-project
+name: firs-project
 on: workflow_dispatch
 
 jobs:
