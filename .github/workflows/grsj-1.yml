@@ -10,8 +10,9 @@ permissions:
    contents: read
   
 jobs: 
-  Build-Test: 
-    runs-on:  ubuntu-latest
+  codeql:
+    name: CodeQL Analysis
+    runs-on: [self-hosted, r1]
     steps: 
       - name:  Checkout Code
         uses:  actions/checkout@v7
