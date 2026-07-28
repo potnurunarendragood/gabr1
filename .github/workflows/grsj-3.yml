@@ -1,0 +1,26 @@
+name:  NodeJs-3
+
+on: 
+  push:
+     branch: master
+  
+jobs: 
+  Build-Test: 
+    runs-on:  ubuntu-latest
+    steps: 
+      - name:  Checkout Code
+        uses:  actions/checkout@v7
+
+      - name: Set up Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Build
+        run: npm install
+
+      - name: test
+        run: npm test
+
+      - name: Deploy
+        run: echo "code is deployed"
