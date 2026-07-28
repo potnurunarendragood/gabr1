@@ -1,50 +1,54 @@
-name:  NodeJs-1
+name: NodeJs-1
 
-on: 
+on:
   push:
-     branch: master
-permissions: 
-   security-events: write
-   issues: write
-   actions: read
-   contents: read
-  
-jobs: 
+    branches:
+      - master
+
+permissions:
+  security-events: write
+  issues: write
+  actions: read
+  contents: read
+
+jobs:
   codeql:
     name: CodeQL Analysis
     runs-on: [self-hosted, r1]
-    steps: 
-      - name:  Checkout Code
-        uses:  actions/checkout@v7
 
-      - name: Set up Nodejs
-        uses: actions/setup-node@v6
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '24'
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript
 
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v4
+        uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@v3
 
-      - name: Build
+      - name: Install Dependencies
         run: npm install
 
-      - name: test
+      - name: Run Tests
         run: npm test
 
-      - name: Artifact upload
-        uses: actions/upload-artifact@v7
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: artifact-1
           path: |
-             package*
+            package.json
+            package-lock.json
 
       - name: Deploy
-        run: echo "code is deployed"
+        run: echo "Code is deployed successfully."
